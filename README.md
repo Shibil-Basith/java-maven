@@ -48,20 +48,20 @@ This project demonstrates a **fully automated, end-to-end CI/CD pipeline** using
 │                                                                 │
 │  Developer ──▶ GitHub ──(webhook)──▶ Jenkins Controller        │
 │                                           │                     │
-│                                    ┌──────▼──────┐             │
+│                                    ┌──────▼──────┐              │
 │                                    │  BUILD STAGE │             │
 │                                    │  (built-in)  │             │
 │                                    │  mvn clean   │             │
 │                                    │  package     │             │
 │                                    └──────┬───────┘             │
 │                                           │ stash WAR           │
-│                                    ┌──────▼───────┐            │
-│                                    │ DEPLOY STAGE │            │
-│                                    │  (slave)     │            │
-│                                    │  unstash →   │            │
-│                                    │  ROOT.war →  │            │
-│                                    │  Tomcat      │            │
-│                                    └──────┬───────┘            │
+│                                    ┌──────▼───────┐             │
+│                                    │ DEPLOY STAGE │             │
+│                                    │  (slave)     │             │
+│                                    │  unstash →   │             │
+│                                    │  ROOT.war →  │             │
+│                                    │  Tomcat      │             │
+│                                    └──────┬───────┘             │
 │                                           │                     │
 │                                    http://<agent-ip>:8080/      │
 └─────────────────────────────────────────────────────────────────┘
