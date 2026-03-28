@@ -110,7 +110,7 @@ GitHub Webhook ──POST──▶ Jenkins (port 8080)
 
 | Tool | Version | Purpose |
 |------|---------|---------|
-| **OpenJDK** | 17 | Java runtime for all pipeline components |
+| **OpenJDK** | 21 | Java runtime for all pipeline components |
 | **Maven** | 3.x | Build automation — compiles and packages the WAR |
 | **Git** | Latest | Source code version control |
 | **GitHub** | — | Remote repo + webhook event source |
@@ -143,9 +143,9 @@ java-maven/
 ### Jenkins Controller Node
 
 ```bash
-# 1. Install OpenJDK 17
+# 1. Install OpenJDK 21
 sudo apt update
-sudo apt install openjdk-17-jdk -y
+sudo apt install openjdk-21-jdk -y
 
 # 2. Install Maven
 sudo apt install maven -y
@@ -175,8 +175,8 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ### Tomcat Agent Node
 
 ```bash
-# 1. Install OpenJDK 17
-sudo apt update && sudo apt install openjdk-17-jdk -y
+# 1. Install OpenJDK 21
+sudo apt update && sudo apt install openjdk-21-jdk -y
 
 # 2. Create Tomcat user and install Tomcat
 sudo useradd -m -U -d /opt/tomcat -s /bin/false tomcat
@@ -202,7 +202,7 @@ After=network.target
 Type=forking
 User=tomcat
 Group=tomcat
-Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
+Environment="JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64"
 Environment="CATALINA_HOME=/opt/tomcat"
 ExecStart=/opt/tomcat/bin/startup.sh
 ExecStop=/opt/tomcat/bin/shutdown.sh
