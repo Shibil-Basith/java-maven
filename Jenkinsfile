@@ -1,52 +1,30 @@
-pipeline{
+pipeline {
 
-agent none
+    agent none
 
-    options {
-    skipDefaultCheckout true
-    }
+    stages {
 
-   stages{
- 
-    stage("build"){
-        agent{
-            label 'node2'
-        }
-        steps{
-            echo "build stage"
-            checkout scm
-            sh "mvn package"
-            stash name: 'build', includes: 'target/*.war'
-        }
-    }
-    stage('unstash'){
-        agent{
-            label 'node1'
-        }
-        steps{
-            sh "mkdir -p unstash"
-            dir('unstash'){
-                unstash 'build'
+        stage("build") {
+            agent {
+                label 'built-in'
+            }
+            steps {
+                git branch: 'main', url: 'https://github.com/Shibil-Basith/java-maven.git'
+                sh "mvn clean package"
+                stash name: 'build', includes: 'target/*.war'
             }
         }
-    }
-    stage('deploy'){
-        agent{
-            label 'node1'
-        }
-        steps{
-         sh "sudo rm -rf /opt/tomcat/myapp_dir/*"
-        dir('unstash/target/'){
-            sh "sudo mv *.war /opt/tomcat/myapp_dir/ && cd /opt/tomcat/myapp_dir/ &&  \
-            sudo jar -xvf *.war && \
-            sudo rm -f *.war "
-        }
+
+        stage('deploy') {
+            agent {
+                label 'slave'
+            }
+            steps {
+                unstash 'build'
+                sh "mv target/*.war target/ROOT.war"
+                sh "cp target/ROOT.war /opt/tomcat/webapps/"
+            }
         }
 
     }
-    stage('restart tomcat'){
-        sh "sudo systemctl restart tomcat.service"
-    }
-    
-   }
 }
