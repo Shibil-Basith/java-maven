@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 unstash 'build'
-		sh "rm -rf target/ROOT.war"
+				sh "rm -rf target/ROOT.war"
                 sh "mv target/*.war target/ROOT.war"
                 sh "cp target/ROOT.war /opt/tomcat/webapps/"
             }
